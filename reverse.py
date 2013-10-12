@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
+# Pulses a motor (attached to the relays as H-bridge) in alternating directions
+# N.C. on each relay are connected to one power rail, N.O. on each relay are connected to other power rail.
+
 from time import sleep
 import pifacedigitalio as pfdio
 import signal

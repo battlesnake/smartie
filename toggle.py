@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+# Turns a digital (open-collector) output on and off for 2.5s each, repeatedly.
+
 from time import sleep
 import pifacedigitalio as pfdio
 import signal

@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
+# Simple PWM implementation for controlling speed of motor in one direction.
+# Attach motor to ground and to a digital (open-collector) output on PiFace.
+
 from time import sleep
 import pifacedigitalio as pfdio
 import signal
