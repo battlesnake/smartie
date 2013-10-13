@@ -27,6 +27,6 @@ while True:
 	r = 1 - l
 	pfd.output_pins[l].turn_on()
 	pfd.output_pins[r].turn_off()
-	sleep(0.05)
+	sleep(0.1)
 	pfd.output_pins[l].turn_off()
 	sleep(0.2)
