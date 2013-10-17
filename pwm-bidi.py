@@ -45,7 +45,7 @@ def main(scr):
 	# driver will take to respond to a command so if slicecount / timeslice
 	# equals 0.1 then this driver could take up to 0.1 seconds to respond
 	# to a control change command.
-	slicecount = 2
+	slicecount = 3
 	# Max and min voltage on motor power supply.  Not used for now.
 	vmax = 6
 	vmin = 0
@@ -59,20 +59,28 @@ def main(scr):
 	while True:
 		# Driver state
 		scr.addstr(2, 2, "Speed: {0}  ".format(speed))
-		scr.addstr(4, 2, "Direction: {0}  "
+		scr.addstr(4, 2, "Direction: {0}    "
 			.format("left" if dir else "right"))
 		# Ugly input handling (Python lacks switch/select/case)
-		c = scr.getch()
-		if c == curses.KEY_LEFT:
-			dir = 1
-		elif c == curses.KEY_RIGHT:
-			dir = 0
-		elif c == curses.KEY_UP:
-			speed = (speed + 1) if speed < 10 else 10
-		elif c == curses.KEY_DOWN:
-			speed = (speed - 1) if speed > 0 else 0
-		elif c == ord('q'):
-			break
+		c = None
+		while 1:
+			c = scr.getch()
+			# Direction
+			if c == curses.KEY_LEFT:
+				dir = 1
+			elif c == curses.KEY_RIGHT:
+				dir = 0
+			# Speed
+			elif c == curses.KEY_UP:
+				speed = (speed + 1) if speed < 10 else 10
+			elif c == curses.KEY_DOWN:
+				speed = (speed - 1) if speed > 0 else 0
+			# Exit
+			elif c == ord('q'):
+				return
+			# No key to handle
+			if c == curses.ERR:
+				break
 		# Calculate time to power motor for, per slice
 		d = speed * maxspeed / 100
 		t = d / timeslice
@@ -83,8 +91,11 @@ def main(scr):
 			pfd.output_pins[fixedpin].turn_on()
 		else:
 			pfd.output_pins[fixedpin].turn_off()
+		# Show timing data
+		scr.addstr(7, 2, "PWM period: {0:.2f} ms ({1} Hz)   "
+			.format(1000 / timeslice, timeslice))
 		# Show diagnostic data
-		scr.addstr(6, 2, "Duty: {0:.2f},{1:.2f}/{2:.2f} ms"
+		scr.addstr(9, 2, "Duty: {0:.2f},{1:.2f}/{2:.2f} ms    "
 			.format(t*1000, f*1000, (t+f)*1000))
 		# Run some timeslices
 		for i in range(0, slicecount):
