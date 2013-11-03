@@ -46,15 +46,9 @@ def main(scr):
 	# equals 0.1 then this driver could take up to 0.1 seconds to respond
 	# to a control change command.
 	slicecount = 3
-	# Max and min voltage on motor power supply.  Not used for now.
-	vmax = 6
-	vmin = 0
 	# Max speed (invisibly used to scale user-supplied speed, if using e.g.
 	# 3V motors on a 5V supply)
 	maxspeed = 5
-	# Annoying voltage drop over open-collector output (WHY couldn't they
-	# use open-drain MOSFETs instead of BJTs...).  Not used for now.
-	vdrop = 0.682
 	# Main loop
 	while True:
 		# Driver state
